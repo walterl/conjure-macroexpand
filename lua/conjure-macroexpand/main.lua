@@ -88,23 +88,41 @@ do
   t_0_["output-expanded"] = v_0_
   output_expanded = v_0_
 end
-local conjure_macroexpand
+local clojure_macroexpand
 do
   local v_0_
   do
     local v_0_0
-    local function conjure_macroexpand0(expand_cmd)
+    local function clojure_macroexpand0(expand_cmd)
       local form = current_form()
       local me_form = ("(" .. (expand_cmd or "clojure.walk/macroexpand-all") .. " '" .. form .. ")")
       return clj_client(eval["eval-str"], {["on-result"] = output_expanded(me_form), ["passive?"] = true, code = me_form, origin = "conjure-macroexpand"})
     end
-    v_0_0 = conjure_macroexpand0
-    _0_["conjure-macroexpand"] = v_0_0
+    v_0_0 = clojure_macroexpand0
+    _0_["clojure-macroexpand"] = v_0_0
     v_0_ = v_0_0
   end
   local t_0_ = (_0_)["aniseed/locals"]
-  t_0_["conjure-macroexpand"] = v_0_
-  conjure_macroexpand = v_0_
+  t_0_["clojure-macroexpand"] = v_0_
+  clojure_macroexpand = v_0_
+end
+local add_buf_mappings
+do
+  local v_0_
+  do
+    local v_0_0
+    local function add_buf_mappings0()
+      mapping.buf("n", nil, "cm", ":ConjureCljMacroexpand<CR>")
+      mapping.buf("n", nil, "c0", ":ConjureCljMacroexpand0<CR>")
+      return mapping.buf("n", nil, "c1", ":ConjureCljMacroexpand1<CR>")
+    end
+    v_0_0 = add_buf_mappings0
+    _0_["add-buf-mappings"] = v_0_0
+    v_0_ = v_0_0
+  end
+  local t_0_ = (_0_)["aniseed/locals"]
+  t_0_["add-buf-mappings"] = v_0_
+  add_buf_mappings = v_0_
 end
 local init
 do
@@ -112,13 +130,11 @@ do
   do
     local v_0_0
     local function init0()
-      nvim.ex.command_("ConjureMacroexpand", bridge["viml->lua"]("conjure-macroexpand.main", "conjure-macroexpand"))
-      nvim.ex.command_("ConjureMacroexpand0", bridge["viml->lua"]("conjure-macroexpand.main", "conjure-macroexpand", {args = "\"clojure.core/macroexpand\""}))
-      nvim.ex.command_("ConjureMacroexpand1", bridge["viml->lua"]("conjure-macroexpand.main", "conjure-macroexpand", {args = "\"clojure.core/macroexpand-1\""}))
+      nvim.ex.command_("ConjureCljMacroexpand", bridge["viml->lua"]("conjure-macroexpand.main", "clojure-macroexpand"))
+      nvim.ex.command_("ConjureCljMacroexpand0", bridge["viml->lua"]("conjure-macroexpand.main", "clojure-macroexpand", {args = "\"clojure.core/macroexpand\""}))
+      nvim.ex.command_("ConjureCljMacroexpand1", bridge["viml->lua"]("conjure-macroexpand.main", "clojure-macroexpand", {args = "\"clojure.core/macroexpand-1\""}))
       if (not nvim.g.conjure_macroexpand_disable_mappings or (0 == nvim.g.conjure_macroexpand_disable_mappings)) then
-        mapping.buf("n", nil, "cm", ":ConjureMacroexpand<CR>")
-        mapping.buf("n", nil, "c0", ":ConjureMacroexpand0<CR>")
-        return mapping.buf("n", nil, "c1", ":ConjureMacroexpand1<CR>")
+        return nvim.ex.autocmd("FileType", "clojure", bridge["viml->lua"]("conjure-macroexpand.main", "add-buf-mappings"))
       end
     end
     v_0_0 = init0
