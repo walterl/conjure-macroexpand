@@ -54,14 +54,14 @@ do
       do
         local _3_ = a.get(opts, "filename")
         if _3_ then
-          filename = string.gsub(_3_, (nvim.fn.getcwd() .. "/"), "")
+          filename = string.gsub(_3_, (nvim.fn.getcwd() .. fs["path-sep"]), "")
         else
           filename = _3_
         end
       end
       local _4_
       if filename then
-        _4_ = ("\"" .. filename .. "\"")
+        _4_ = ("\"" .. string.gsub(filename, "\\", "\\\\") .. "\"")
       else
         _4_ = "nil"
       end
