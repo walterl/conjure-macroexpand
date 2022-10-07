@@ -32,21 +32,14 @@
                  :on-result (output-expanded me-form)})))
 
 (defn add-buf-mappings []
-  (mapping.buf :n nil "cm" ":ConjureCljMacroexpand<CR>")
-  (mapping.buf :n nil "c0" ":ConjureCljMacroexpand0<CR>")
-  (mapping.buf :n nil "c1" ":ConjureCljMacroexpand1<CR>"))
+  (mapping.buf :CljMacroexpand "cm" #(clj-macroexpand)
+               {:desc "Call macroexpand-all on the symbol under the cursor"})
+  (mapping.buf :CljMacroexpand0 "c0" #(clj-macroexpand "clojure.core/macroexpand")
+               {:desc "Call macroexpand on the symbol under the cursor"})
+  (mapping.buf :CljMacroexpand1 "c1" #(clj-macroexpand "clojure.core/macroexpand-1")
+               {:desc "Call macroexpand-1 on the symbol under the cursor"}))
 
 (defn init []
-  (nvim.ex.command_
-    "ConjureCljMacroexpand"
-    (bridge.viml->lua :conjure-macroexpand.main :clj-macroexpand))
-  (nvim.ex.command_
-    "ConjureCljMacroexpand0"
-    (bridge.viml->lua :conjure-macroexpand.main :clj-macroexpand {:args "\"clojure.core/macroexpand\""}))
-  (nvim.ex.command_
-    "ConjureCljMacroexpand1"
-    (bridge.viml->lua :conjure-macroexpand.main :clj-macroexpand {:args "\"clojure.core/macroexpand-1\""}))
-
   (when (or (not nvim.g.conjure_macroexpand_disable_mappings)
             (= 0 nvim.g.conjure_macroexpand_disable_mappings))
     (nvim.ex.autocmd
