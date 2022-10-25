@@ -1,6 +1,7 @@
 (module conjure-macroexpand.main
   {require {a aniseed.core
             nvim aniseed.nvim
+            str aniseed.string
             bridge conjure.bridge
             client conjure.client
             eval conjure.eval
@@ -20,7 +21,7 @@
 
 (defn- output-expanded [orig]
   (fn [r]
-    (log.append [(.. "; " orig) r] {:break? true})))
+    (log.append (a.concat [(.. "; " orig)] (str.split r "\n")) {:break? true})))
 
 (defn clj-macroexpand [expand-cmd]
   (let [form (current-form)

@@ -10,7 +10,7 @@ do
   _2amodule_2a["aniseed/locals"] = {}
   _2amodule_locals_2a = (_2amodule_2a)["aniseed/locals"]
 end
-local a, bridge, client, eval, extract, log, mapping, nvim = require("conjure-macroexpand.aniseed.core"), require("conjure.bridge"), require("conjure.client"), require("conjure.eval"), require("conjure.extract"), require("conjure.log"), require("conjure.mapping"), require("conjure-macroexpand.aniseed.nvim")
+local a, bridge, client, eval, extract, log, mapping, nvim, str = require("conjure-macroexpand.aniseed.core"), require("conjure.bridge"), require("conjure.client"), require("conjure.eval"), require("conjure.extract"), require("conjure.log"), require("conjure.mapping"), require("conjure-macroexpand.aniseed.nvim"), require("conjure-macroexpand.aniseed.string")
 do end (_2amodule_locals_2a)["a"] = a
 _2amodule_locals_2a["bridge"] = bridge
 _2amodule_locals_2a["client"] = client
@@ -19,6 +19,7 @@ _2amodule_locals_2a["extract"] = extract
 _2amodule_locals_2a["log"] = log
 _2amodule_locals_2a["mapping"] = mapping
 _2amodule_locals_2a["nvim"] = nvim
+_2amodule_locals_2a["str"] = str
 local function current_form()
   local form = extract.form({})
   if form then
@@ -36,7 +37,7 @@ end
 _2amodule_locals_2a["clj-client"] = clj_client
 local function output_expanded(orig)
   local function _3_(r)
-    return log.append({("; " .. orig), r}, {["break?"] = true})
+    return log.append(a.concat({("; " .. orig)}, str.split(r, "\n")), {["break?"] = true})
   end
   return _3_
 end
