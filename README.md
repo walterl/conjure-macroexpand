@@ -1,3 +1,5 @@
+**DEPRECATED**, because [Conjure now supports this](https://github.com/Olical/conjure/blob/8c51801a9f2bc95be0e1a38c971b7177b009d0f6/doc/conjure-client-clojure-nrepl.txt#L372) natively.
+
 # ConjureMacroexpand
 
 Adds commands `ConjureMacroexpand`, `ConjureMacroexpand0` and
