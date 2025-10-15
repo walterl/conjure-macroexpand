@@ -2,7 +2,6 @@
   {require {a aniseed.core
             nvim aniseed.nvim
             str aniseed.string
-            bridge conjure.bridge
             client conjure.client
             eval conjure.eval
             extract conjure.extract
@@ -43,6 +42,7 @@
 (defn init []
   (when (or (not nvim.g.conjure_macroexpand_disable_mappings)
             (= 0 nvim.g.conjure_macroexpand_disable_mappings))
-    (nvim.ex.autocmd
-      :FileType "clojure"
-      (bridge.viml->lua :conjure-macroexpand.main :add-buf-mappings))))
+    (vim.api.nvim_create_autocmd
+      :FileType
+      {:pattern "clojure"
+       :callback add-buf-mappings})))

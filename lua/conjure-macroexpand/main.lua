@@ -10,9 +10,8 @@ do
   _2amodule_2a["aniseed/locals"] = {}
   _2amodule_locals_2a = (_2amodule_2a)["aniseed/locals"]
 end
-local a, bridge, client, eval, extract, log, mapping, nvim, str = require("conjure-macroexpand.aniseed.core"), require("conjure.bridge"), require("conjure.client"), require("conjure.eval"), require("conjure.extract"), require("conjure.log"), require("conjure.mapping"), require("conjure-macroexpand.aniseed.nvim"), require("conjure-macroexpand.aniseed.string")
+local a, client, eval, extract, log, mapping, nvim, str = require("conjure-macroexpand.aniseed.core"), require("conjure.client"), require("conjure.eval"), require("conjure.extract"), require("conjure.log"), require("conjure.mapping"), require("conjure-macroexpand.aniseed.nvim"), require("conjure-macroexpand.aniseed.string")
 do end (_2amodule_locals_2a)["a"] = a
-_2amodule_locals_2a["bridge"] = bridge
 _2amodule_locals_2a["client"] = client
 _2amodule_locals_2a["eval"] = eval
 _2amodule_locals_2a["extract"] = extract
@@ -65,7 +64,7 @@ end
 _2amodule_2a["add-buf-mappings"] = add_buf_mappings
 local function init()
   if (not nvim.g.conjure_macroexpand_disable_mappings or (0 == nvim.g.conjure_macroexpand_disable_mappings)) then
-    return nvim.ex.autocmd("FileType", "clojure", bridge["viml->lua"]("conjure-macroexpand.main", "add-buf-mappings"))
+    return vim.api.nvim_create_autocmd("FileType", {pattern = "clojure", callback = add_buf_mappings})
   else
     return nil
   end
